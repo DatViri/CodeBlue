@@ -3,7 +3,6 @@ package leo.me.la.codeblue
 import android.arch.lifecycle.Observer
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import leo.me.la.codeblue.presentation.UserViewModel
 import leo.me.la.codeblue.presentation.UserViewState
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -24,13 +23,10 @@ class InfoActivity : AppCompatActivity() {
     private fun render(viewState: UserViewState) {
         when(viewState) {
             UserViewState.Loading -> {
-                Log.d("loading", "loaded")
             }
             is UserViewState.Failure -> {
-                Log.e("failed", viewState.throwable.toString())
             }
             is UserViewState.Success -> {
-                Log.d("success", viewState.user.firstName)
             }
         }
     }
