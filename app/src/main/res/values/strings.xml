@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CodeBlue</string>
+    <string name="dob">DOB:</string>
+    <string name="weight">Weight:</string>
+    <string name="height">Height:</string>
+    <string name="profile_image">Profile image</string>
+    <string name="name">Name:</string>
 </resources>
