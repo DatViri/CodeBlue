@@ -72,7 +72,7 @@ class AugmentedImageActivity : AppCompatActivity() {
                         node.augmentedImageNode(this,"tower.sfb")
                         node.setImage(augmentedImage)
                         augmentedImageMap[augmentedImage] = node
-                        arFragment!!.getArSceneView().getScene().addChild(node)
+                        arFragment!!.arSceneView.scene.addChild(node)
                     }
                 }
 
