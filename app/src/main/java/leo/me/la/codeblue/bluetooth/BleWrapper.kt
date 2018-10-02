@@ -96,10 +96,6 @@ class BleWrapper(private val context: Context, deviceAddress: String) : Handler.
         listeners.add(bleCallback)
     }
 
-    fun removeListener(bleCallback: BleCallback) {
-        listeners.remove(bleCallback)
-    }
-
     fun removeAllListeners() {
         listeners.clear()
     }
@@ -108,24 +104,9 @@ class BleWrapper(private val context: Context, deviceAddress: String) : Handler.
         bleHandler.obtainMessage(MSG_CONNECT, autoConnect).sendToTarget()
     }
 
-    fun disconnect(gatt: BluetoothGatt) {
-        bleHandler.obtainMessage(MSG_DISCONNECT, gatt).sendToTarget()
-    }
-
     fun getNotifications(gatt: BluetoothGatt, service: UUID, characteristic: UUID ) {
         bleHandler.obtainMessage(MSG_GET_NOTIFICATIONS, ServiceCharacteristic(gatt, service, characteristic)).sendToTarget()
     }
-
-    fun writeCharacteristic(gatt: BluetoothGatt, service: UUID, characteristic: UUID, data: ByteArray) {
-        bleHandler.obtainMessage(
-            MSG_WRITE_CHARACTERISTIC,
-            CharacteristicData(
-                ServiceCharacteristic(gatt, service, characteristic),
-                data
-            )
-        ).sendToTarget()
-    }
-    /**************************************/
 
     override fun handleMessage(message: Message): Boolean {
         when (message.what) {
