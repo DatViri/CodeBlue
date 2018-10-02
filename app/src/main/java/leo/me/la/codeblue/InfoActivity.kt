@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_info.lineChart
 import kotlinx.android.synthetic.main.activity_info.name
 import kotlinx.android.synthetic.main.activity_info.nameValue
 import kotlinx.android.synthetic.main.activity_info.profilePicture
+import kotlinx.android.synthetic.main.activity_info.toolbar
 import kotlinx.android.synthetic.main.activity_info.weight
 import kotlinx.android.synthetic.main.activity_info.weightValue
 import leo.me.la.codeblue.bluetooth.BleWrapper
@@ -126,6 +127,7 @@ class InfoActivity : AppCompatActivity() {
                     dobValue.text = birthdate
                     weightValue.text = "${weight}kg"
                     heightValue.text = "${height}cm"
+                    toolbar.title = "$firstName $lastName"
                 }
             }
         }
