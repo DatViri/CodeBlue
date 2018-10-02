@@ -36,6 +36,35 @@ class InfoActivity : AppCompatActivity() {
     private val userViewModel: UserViewModel by viewModel()
 
     private val heartRates by lazy { mutableListOf(Entry(0F, 60F)) }
+    private lateinit var bleWrapper: BleWrapper
+    private val polarListener = object : BleWrapper.BleCallback {
+        override fun onDeviceReady(gatt: BluetoothGatt) {
+            bleWrapper.getNotifications(gatt, HEART_RATE_SERVICE_UUID, HEART_RATE_MEASUREMENT_CHAR_UUID)
+        }
+
+        override fun onDeviceDisconnected() {
+            bleWrapper.removeAllListeners()
+        }
+
+        @SuppressLint("SetTextI18n")
+        override fun onNotify(characteristic: BluetoothGattCharacteristic) {
+            runOnUiThread {
+                val format = if (characteristic.properties and 0x01 != 0) {
+                    BluetoothGattCharacteristic.FORMAT_UINT16
+                } else {
+                    BluetoothGattCharacteristic.FORMAT_UINT8
+                }
+                val heartrate = characteristic.getIntValue(format, 1)
+                heartRates.add(Entry(counter.toFloat(), heartrate.toFloat()))
+                lineDataSet.notifyDataSetChanged()
+                lineData.notifyDataChanged()
+                lineChart.notifyDataSetChanged()
+                lineChart.invalidate()
+                heartRate.text = heartrate.toString()
+                counter += 1
+            }
+        }
+    }
     private val lineDataSet by lazy {
         LineDataSet(heartRates, "heart rate").also {
             it.axisDependency = YAxis.AxisDependency.LEFT
@@ -64,35 +93,10 @@ class InfoActivity : AppCompatActivity() {
         lineChart.setVisibleXRangeMaximum(40f)
         lineChart.axisRight.isEnabled = false
         lineChart.xAxis.setDrawLabels(false)
-        BleWrapper(this, address)
+        bleWrapper = BleWrapper(this, address)
             .apply {
                 connect(false)
-                addListener(object : BleWrapper.BleCallback {
-                    override fun onDeviceReady(gatt: BluetoothGatt) {
-                        getNotifications(gatt, HEART_RATE_SERVICE_UUID, HEART_RATE_MEASUREMENT_CHAR_UUID)
-                    }
-
-                    override fun onDeviceDisconnected() {}
-
-                    @SuppressLint("SetTextI18n")
-                    override fun onNotify(characteristic: BluetoothGattCharacteristic) {
-                        runOnUiThread {
-                            val format = if (characteristic.properties and 0x01 != 0) {
-                                BluetoothGattCharacteristic.FORMAT_UINT16
-                            } else {
-                                BluetoothGattCharacteristic.FORMAT_UINT8
-                            }
-                            val heartrate = characteristic.getIntValue(format, 1)
-                            heartRates.add(Entry(counter.toFloat(), heartrate.toFloat()))
-                            lineDataSet.notifyDataSetChanged()
-                            lineData.notifyDataChanged()
-                            lineChart.notifyDataSetChanged()
-                            lineChart.invalidate()
-                            heartRate.text = heartrate.toString()
-                            counter += 1
-                        }
-                    }
-                })
+                addListener(polarListener)
             }
     }
 
@@ -100,8 +104,10 @@ class InfoActivity : AppCompatActivity() {
     private fun render(viewState: UserViewState) {
         when (viewState) {
             UserViewState.Loading -> {
+                //TODO: React to this state
             }
             is UserViewState.Failure -> {
+                //TODO: Show error message
             }
             is UserViewState.Success -> {
                 showViews(setOf(
@@ -123,6 +129,11 @@ class InfoActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bleWrapper.removeAllListeners()
     }
 
     private fun showViews(views: Set<View>) {
