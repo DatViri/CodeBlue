@@ -8,18 +8,12 @@ import com.google.ar.core.AugmentedImage
 import com.google.ar.core.TrackingState
 import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.ux.ArFragment
-import leo.me.la.codeblue.ar.AugmentedImageNode
 import leo.me.la.codeblue.common.helper.SnackbarHelper
-import java.util.HashMap
 
 class AugmentedImageActivity : AppCompatActivity() {
 
     private var arFragment: ArFragment? = null
     private var fitToScanView: ImageView? = null
-
-    // Augmented image and its associated center pose anchor, keyed by the augmented image in
-    // the database.
-    private val augmentedImageMap = HashMap<AugmentedImage, AugmentedImageNode>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,14 +24,6 @@ class AugmentedImageActivity : AppCompatActivity() {
 
         arFragment!!.arSceneView.scene.addOnUpdateListener(onUpdateFrame)
     }
-
-    override fun onResume() {
-        super.onResume()
-        if (augmentedImageMap.isEmpty()) {
-            fitToScanView!!.visibility = View.VISIBLE
-        }
-    }
-
     /**
      * Registered with the Sceneform Scene object, this method is called at the start of each frame.
      *
