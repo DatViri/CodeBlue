@@ -28,7 +28,7 @@ class AugmentedImageActivity : AppCompatActivity() {
         arFragment = supportFragmentManager.findFragmentById(R.id.ux_fragment) as ArFragment?
         fitToScanView = findViewById(R.id.image_view_fit_to_scan)
 
-        arFragment!!.arSceneView.scene.addOnUpdateListener{ this.onUpdateFrame(it) }
+        arFragment!!.arSceneView.scene.addOnUpdateListener(onUpdateFrame)
     }
 
     override fun onResume() {
@@ -44,40 +44,29 @@ class AugmentedImageActivity : AppCompatActivity() {
      * @param frameTime - time since last frame.
      */
 
-    private fun onUpdateFrame(frameTime: FrameTime) {
+    private val onUpdateFrame: (FrameTime) -> Unit = {
         val frame = arFragment!!.arSceneView.arFrame
 
         // If there is no frame or ARCore is not tracking yet, just return.
-        if (frame == null || frame.camera.trackingState !== TrackingState.TRACKING) {
-            return
-        }
+        if (!(frame == null || frame.camera.trackingState !== TrackingState.TRACKING)) {
+            val updatedAugmentedImages = frame!!.getUpdatedTrackables(AugmentedImage::class.java)
+            for (augmentedImage in updatedAugmentedImages) {
+                when (augmentedImage.trackingState) {
+                    TrackingState.PAUSED -> {
+                        // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
+                        // but not yet tracked.
+                        val text = "Detected Image " + augmentedImage.index
+                        SnackbarHelper.instance.showMessage(this, text)
 
-        val updatedAugmentedImages = frame!!.getUpdatedTrackables(AugmentedImage::class.java)
-        for (augmentedImage in updatedAugmentedImages) {
-            when (augmentedImage.trackingState) {
-                TrackingState.PAUSED -> {
-                    // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
-                    // but not yet tracked.
-                    val text = "Detected Image " + augmentedImage.index
-                    SnackbarHelper.instance.showMessage(this, text)
-                }
-
-                TrackingState.TRACKING -> {
-                    // Have to switch to UI Thread to update View.
-                    fitToScanView!!.visibility = View.GONE
-
-                    // Create a new anchor for newly found images.
-                    if (!augmentedImageMap.containsKey(augmentedImage)) {
-                        val node = AugmentedImageNode()
-                        node.augmentedImageNode(this,"tower.sfb")
-                        node.setImage(augmentedImage)
-                        augmentedImageMap[augmentedImage] = node
-                        arFragment!!.arSceneView.scene.addChild(node)
+                        removeListener()
                     }
+                    else -> { }
                 }
-
-                TrackingState.STOPPED -> augmentedImageMap.remove(augmentedImage)
             }
         }
+    }
+
+    private fun removeListener() {
+        arFragment!!.arSceneView.scene.removeOnUpdateListener(onUpdateFrame)
     }
 }
