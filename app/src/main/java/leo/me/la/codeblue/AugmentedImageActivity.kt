@@ -1,5 +1,6 @@
 package leo.me.la.codeblue
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.google.ar.core.AugmentedImage
@@ -38,11 +39,16 @@ class AugmentedImageActivity : AppCompatActivity() {
                         val text = "Detected Image " + it.index
                         SnackbarHelper.instance.showMessage(this, text)
                         removeListener()
+                        goToAugmentedImageActivity()
                     }
                     else -> { }
                 }
             }
         }
+    }
+
+    private fun goToAugmentedImageActivity(){
+        startActivity(Intent(this, InfoActivity::class.java))
     }
 
     private fun removeListener() {
