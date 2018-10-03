@@ -6,7 +6,7 @@
     tools:context=".AugmentedImageActivity">
 
 
-    <fragment class="leo.me.la.codeblue.ar.AugmentedImageFragment"
+    <fragment android:name="leo.me.la.codeblue.ar.AugmentedImageFragment"
         android:id="@+id/ux_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
