@@ -128,7 +128,7 @@
         tools:text="173cm"
         />
 
-    <android.support.v7.widget.Toolbar
+    <leo.me.la.codeblue.customViews.CenteredToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
