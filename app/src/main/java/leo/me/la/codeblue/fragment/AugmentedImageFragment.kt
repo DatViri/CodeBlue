@@ -47,6 +47,17 @@ class AugmentedImageFragment : ArFragment() {
 
     override fun getSessionConfiguration(session: Session): Config {
         val config = super.getSessionConfiguration(session)
+
+        //Check if the configuration is set to fixed
+        if (config.focusMode == Config.FocusMode.FIXED)
+            config.focusMode = Config.FocusMode.AUTO
+
+        //Sceneform requires that the ARCore session is configured to the UpdateMode LATEST_CAMERA_IMAGE.
+        //This is probably not required for just auto focus. I was updating the camera configuration as well
+        config.updateMode = Config.UpdateMode.LATEST_CAMERA_IMAGE
+
+        //Reconfigure the session
+        session.configure(config)
         if (!setupAugmentedImageDatabase(config, session)) {
             SnackbarHelper.instance
                 .showError(activity!!, "Could not setup augmented image database")
