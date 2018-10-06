@@ -1,4 +1,4 @@
-package leo.me.la.codeblue.ar
+package leo.me.la.codeblue.fragment
 
 import android.app.ActivityManager
 import android.content.Context
@@ -15,6 +15,10 @@ import com.google.ar.core.Session
 import com.google.ar.sceneform.ux.ArFragment
 import leo.me.la.codeblue.common.helper.SnackbarHelper
 import java.io.IOException
+
+private val imageList = listOf(
+    "giang.jpg"
+)
 
 class AugmentedImageFragment : ArFragment() {
 
@@ -51,35 +55,30 @@ class AugmentedImageFragment : ArFragment() {
     }
 
     private fun setupAugmentedImageDatabase(config: Config, session: Session): Boolean {
-        var augmentedImageDatabase: AugmentedImageDatabase? = null
+        val augmentedImageDatabase = AugmentedImageDatabase(session)
 
         val assetManager = (if (context != null) context!!.assets else null) ?: return false
 
-        val augmentedImageBitmap = loadAugmentedImageBitmap(assetManager) ?: return false
-
-        augmentedImageDatabase = AugmentedImageDatabase(session)
-        augmentedImageDatabase.addImage(DEFAULT_IMAGE_NAME, augmentedImageBitmap)
+        imageList.forEach {
+            val augmentedImageBitmap = loadAugmentedImageBitmap(assetManager, it) ?: return false
+            augmentedImageDatabase.addImage(it, augmentedImageBitmap)
+        }
 
         config.augmentedImageDatabase = augmentedImageDatabase
         return true
     }
 
-    private fun loadAugmentedImageBitmap(assetManager: AssetManager?): Bitmap? {
+    private fun loadAugmentedImageBitmap(assetManager: AssetManager, imageName: String): Bitmap? {
         try {
-            assetManager!!.open(DEFAULT_IMAGE_NAME).use { `is` -> return BitmapFactory.decodeStream(`is`) }
+            assetManager.open(imageName).use {
+                stream -> return BitmapFactory.decodeStream(stream)
+            }
         } catch (ignore: IOException) {
+            return null
         }
-
-        return null
     }
 
     companion object {
-
-        // This is the name of the image in the sample database.  A copy of the image is in the assets
-        // directory.  Opening this image on your computer is a good quick way to test the augmented image
-        // matching.
-        private var DEFAULT_IMAGE_NAME = "default.jpg"
-
         // Do a runtime check for the OpenGL level available at runtime to avoid Sceneform crashing the
         // application.
         private var MIN_OPENGL_VERSION = 3.0
