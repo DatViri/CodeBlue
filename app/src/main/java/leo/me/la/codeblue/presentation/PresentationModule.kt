@@ -5,6 +5,6 @@ import org.koin.dsl.module.module
 
 val presentationModule = module {
     viewModel {
-        UserViewModel(get())
+        UserViewModel(get(), get())
     }
 }
