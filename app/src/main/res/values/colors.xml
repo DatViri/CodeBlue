@@ -4,4 +4,16 @@
     <color name="colorPrimaryDark">#203375</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorText">#ffffff</color>
+    <color name="colorUnderweight">#0026ff</color>
+    <color name="colorNormalWeight">#076d00</color>
+    <color name="colorOverWeight">#e58302</color>
+    <color name="colorObesity">#c40000</color>
+    <color name="colorLow">#c40000</color>
+    <color name="colorAthlete">#00146d</color>
+    <color name="colorExcellent">#0069c4</color>
+    <color name="colorGood">#00de7e</color>
+    <color name="colorAboveAverage">#c6e918</color>
+    <color name="colorAverage">#c4b000</color>
+    <color name="colorBelowAverage">#c48900</color>
+    <color name="colorPoor">#c40000</color>
 </resources>
