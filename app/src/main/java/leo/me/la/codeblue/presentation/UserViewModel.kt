@@ -4,11 +4,14 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
+import leo.me.la.codeblue.domain.BMIStatus
+import leo.me.la.codeblue.domain.CalculateBMIUseCase
+import leo.me.la.codeblue.domain.DataUser
 import leo.me.la.codeblue.domain.FetchUserUseCase
-import leo.me.la.codeblue.remote.User
 
 class UserViewModel(
-    private val fetchUserUseCase: FetchUserUseCase
+    private val fetchUserUseCase: FetchUserUseCase,
+    private val bmiUseCase: CalculateBMIUseCase
 ) : ViewModel() {
 
     private val disposables = CompositeDisposable()
@@ -18,11 +21,17 @@ class UserViewModel(
     fun fetchUser(userId: Int) {
         disposables.add(
             fetchUserUseCase.fetchUserUseCase(userId)
+                .flatMap {
+                    bmiUseCase.calculateBMI(it.weight, it.height)
+                        .map { bmi ->
+                            Pair(it, bmi)
+                        }
+                }
                 .doOnSubscribe {
                     _viewState.value = UserViewState.Loading
                 }
                 .subscribe({
-                    _viewState.value = UserViewState.Success(it)
+                    _viewState.value = UserViewState.Success(it.first, it.second)
                 }, {
                     _viewState.value = UserViewState.Failure(it)
                 })
@@ -37,6 +46,6 @@ class UserViewModel(
 
 sealed class UserViewState {
     object Loading : UserViewState()
-    data class Success(val user: User) : UserViewState()
+    data class Success(val user: DataUser, val bmi: BMIStatus) : UserViewState()
     data class Failure(val throwable: Throwable) : UserViewState()
 }
