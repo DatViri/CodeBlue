@@ -10,7 +10,7 @@ interface PolarApi {
     @GET("v3/users/{user-id}")
     fun getUserInfo(
         @Path("user-id") userId: Int,
-        @Header("Authorization") token: String = "Bearer caf5efd8628fe216c30b08cd63649edc"
+        @Header("Authorization") token: String = "Bearer 0b28742a663b3cf328217021819b7af9"
     ) : Single<User>
 }
 
