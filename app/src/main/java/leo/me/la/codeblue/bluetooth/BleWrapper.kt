@@ -28,7 +28,6 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
 import android.os.Message
-import android.util.Log
 import java.util.ArrayDeque
 import java.util.UUID
 
@@ -132,7 +131,6 @@ class BleWrapper(private val context: Context, deviceAddress: String) : Handler.
     }
 
     private fun doNotifyNotifies(characteristic: BluetoothGattCharacteristic) {
-        Log.d("Time-notified", System.currentTimeMillis().toString())
         for (listener in listeners) {
             listener.onNotify(characteristic)
         }

@@ -6,7 +6,28 @@
     <string name="profile_image">Profile image</string>
     <string name="name">Name:</string>
     <string name="fit_image_to_scan">Fit image to scan</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="underweight">Underweight</string>
+    <string name="normal_weight">Normal weight</string>
+    <string name="overweight">Over weight</string>
+    <string name="obesity">Obesity</string>
+    <string name="years">&#160;years old</string>
+    <string name="target_bpm">Target:&#160;</string>
+    <string name="low">Low</string>
+    <string name="athlete">Athlete</string>
+    <string name="excellent">Excellent</string>
+    <string name="good">Good</string>
+    <string name="above">Above average</string>
+    <string name="average">Average</string>
+    <string name="below">Below average</string>
+    <string name="poor">Poor</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="request_gps">Please, enable GPS or quit</string>
+    <string name="enable_gps">Enable GPS</string>
+    <string name="quit">Quit</string>
+    <string name="done">DONE</string>
+    <string name="step_visualization">Step visualization</string>
+    <string name="step1">Turn on the sensor</string>
+    <string name="step2">Scan the patient image</string>
+    <string name="step3">Get the patient data</string>
 </resources>

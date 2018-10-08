@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.google.ar.core.AugmentedImage
+import com.google.ar.core.Config
+import com.google.ar.core.Session
 import com.google.ar.core.TrackingState
 import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.ux.ArFragment
@@ -14,7 +16,6 @@ class AugmentedImageActivity : AppCompatActivity() {
     private val arFragment: ArFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.ux_fragment) as ArFragment
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_augmented_image)
@@ -22,10 +23,12 @@ class AugmentedImageActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        arFragment.arSceneView.scene.addOnUpdateListener(onUpdateFrame)
+        arFragment.arSceneView.apply {
+            scene.addOnUpdateListener(onUpdateFrame)
+        }
     }
 
-    private val onUpdateFrame: (FrameTime) -> Unit = {
+    private val onUpdateFrame: (FrameTime) -> Unit = { _ ->
         val frame = arFragment.arSceneView.arFrame
 
         // If there is no frame or ARCore is not tracking yet, just return.

@@ -12,4 +12,10 @@ val domainModule = module {
             get(TAG_POST_EXECUTION)
         )
     }
+    factory {
+        CalculateBMIUseCase(
+            get(TAG_THREAD_EXECUTOR),
+            get(TAG_POST_EXECUTION)
+        )
+    }
 }
