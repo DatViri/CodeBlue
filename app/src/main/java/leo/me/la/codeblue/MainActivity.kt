@@ -15,6 +15,9 @@ import leo.me.la.codeblue.fragment.SliderFragment
 
 private const val prefShowIntro = "Intro"
 
+/**
+ * This activity shows a viewpager to tell user how to use the application
+ */
 class MainActivity : AppCompatActivity() {
 
     private val adapter: PagerAdapter by lazy {

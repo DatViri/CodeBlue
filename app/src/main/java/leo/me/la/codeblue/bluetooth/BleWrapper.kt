@@ -12,9 +12,11 @@ package leo.me.la.codeblue.bluetooth
  * there are Queue on the write requests.
  *
  * Author(s): Jarkko Vuori
+ * Modifier(s): Giang Pham
  * Modification(s):
  *   First version created on 15.08.2018
  *   Write characteristic capability added 18.9.2018
+ *   Final version 02.10.2018, remove all warnings from IDE and optimization
  */
 
 import android.bluetooth.BluetoothDevice
