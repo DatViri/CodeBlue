@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CodeBlue</string>
+    <string name="dob">DOB:</string>
+    <string name="weight">Paino:</string>
+    <string name="height">Korkeus:</string>
+    <string name="profile_image">Profiilikuva</string>
+    <string name="name">Nimi:</string>
+    <string name="fit_image_to_scan">Sovita kuva skannaukseen</string>
+    <string name="underweight">Alipaino</string>
+    <string name="normal_weight">Normaali paino</string>
+    <string name="overweight">Ylipaino</string>
+    <string name="obesity">Liikalihavuus</string>
+    <string name="years">vuotta vanha</string>
+    <string name="target_bpm">Kohde:</string>
+    <string name="low">Matala</string>
+    <string name="athlete">Urheilija</string>
+    <string name="excellent">Erinomainen</string>
+    <string name="good">Hyvä</string>
+    <string name="above">Keskivertoa parempi</string>
+    <string name="average">Keskiverto</string>
+    <string name="below">Keskiarvon alapuolella</string>
+    <string name="poor">Huono</string>
+    <string name="next">Seuraava</string>
+    <string name="skip">Hyppiä</string>
+    <string name="request_gps">Ota GPS käyttöön tai lopeta</string>
+    <string name="enable_gps">Ota GPS käyttöön</string>
+    <string name="quit">Lopettaa</string>
+    <string name="done">Valmis</string>
+    <string name="step_visualization">Vaiheen visualisointi</string>
+    <string name="step1">Kytke anturi päälle</string>
+    <string name="step2">Skannaa potilastiedosto</string>
+    <string name="step3">Hanki potilastiedot</string>
+</resources>
