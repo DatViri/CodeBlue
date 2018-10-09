@@ -9,6 +9,10 @@ import com.google.ar.sceneform.Scene
 import com.google.ar.sceneform.ux.ArFragment
 import leo.me.la.codeblue.common.helper.SnackbarHelper
 
+/**
+ * This activity allows user to scan the patient's image and navigate to [InfoActivity] with
+ * extra data of user id and associated sensor
+ */
 class AugmentedImageActivity : AppCompatActivity() {
 
     private val arFragment: ArFragment by lazy {
@@ -26,7 +30,7 @@ class AugmentedImageActivity : AppCompatActivity() {
         }
     }
 
-    private val onUpdateFrame = Scene.OnUpdateListener {
+    private val onUpdateFrame = Scene.OnUpdateListener { _ ->
         val frame = arFragment.arSceneView.arFrame
 
         // If there is no frame or ARCore is not tracking yet, just return.

@@ -21,7 +21,12 @@ private val imageList = listOf(
         "dat.jpg"
 )
 
+private const val MIN_OPENGL_VERSION = 3.0
 
+/**
+ * This fragment setup augmented image database
+ * and the ar fragment camera
+ */
 class AugmentedImageFragment : ArFragment() {
 
     override fun onAttach(context: Context) {
@@ -89,11 +94,5 @@ class AugmentedImageFragment : ArFragment() {
         } catch (ignore: IOException) {
             return null
         }
-    }
-
-    companion object {
-        // Do a runtime check for the OpenGL level available at runtime to avoid Sceneform crashing the
-        // application.
-        private var MIN_OPENGL_VERSION = 3.0
     }
 }

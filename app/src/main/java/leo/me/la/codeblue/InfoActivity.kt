@@ -36,6 +36,11 @@ import leo.me.la.codeblue.presentation.UserViewModel
 import leo.me.la.codeblue.presentation.UserViewState
 import org.koin.android.viewmodel.ext.android.viewModel
 
+/**
+ * This activity show the info of a required patient
+ * It displays the patient's information and feedback on their BMI
+ * It also shows a real time graph of their heart rate and give feedback on their heart rate
+ */
 class InfoActivity : AppCompatActivity() {
 
     private val userViewModel: UserViewModel by viewModel()
@@ -107,6 +112,7 @@ class InfoActivity : AppCompatActivity() {
                     R.id.heartRate,
                     R.id.iconHeartRate
                 ))
+                // Display user data
                 with(viewState.user) {
                     nameValue.text = "$firstName $lastName"
                     dobValue.text = age.toString() + getString(R.string.years)
@@ -114,6 +120,7 @@ class InfoActivity : AppCompatActivity() {
                     heightValue.text = "${height}cm"
                     targetHr.text = getString(R.string.target_bpm) + getHRTarget(age).let { "${it.first} - ${it.last} bpm" }
                 }
+                // Display bmi feedback
                 with(viewState.bmi) {
                     bmi.text = "BMI: $first"
                     bmi_message.apply {
@@ -121,6 +128,7 @@ class InfoActivity : AppCompatActivity() {
                         setTextColor(ContextCompat.getColor(this@InfoActivity, third))
                     }
                 }
+                // Connect to associated sensor
                 val address = intent.getStringExtra("address") ?: UserIdentities.user1.second
                 bleWrapper = BleWrapper(this, address)
                     .apply {
@@ -160,6 +168,7 @@ class InfoActivity : AppCompatActivity() {
                             }
                         })
                     }
+                // Apply animation
                 popupAnimator.apply {
                     addUpdateListener {
                         iconHeartRate.scaleX = it.animatedValue as Float

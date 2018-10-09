@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.util.DisplayMetrics
 import android.view.animation.AccelerateDecelerateInterpolator
-import kotlinx.android.synthetic.main.activity_info.profilePicture
 
-
+/**
+ * This method animate the view alpha from 0 to 1 and turn it to visible at the same time
+ * @param durationInMillis the an animation duration by milliseconds
+ */
 fun View.fadeIn(durationInMillis: Int = context.resources.getInteger(android.R.integer.config_shortAnimTime)) {
     animate()
         .setListener(object : AnimatorListenerAdapter() {
@@ -42,11 +44,18 @@ fun View.fadeOut(durationInMillis: Int = context.resources.getInteger(android.R.
         .duration = durationInMillis.toLong()
 }
 
+/**
+ * Traverse all the views of the [Activity] and turn it to visible if its id is specified
+ * @param visibleViewIds the ids of views that needs to be visible
+ */
 fun Activity.turnViewsToVisible(visibleViewIds: Set<Int>) {
     val rootView = findViewById<ViewGroup>(android.R.id.content).getChildAt(0)
     (rootView as? ViewGroup)?.turnViewsToVisible(visibleViewIds)
 }
-
+/**
+ * Traverse all the views of the [ViewGroup] and turn it to visible if its id is specified
+ * @param visibleViewIds the ids of views that needs to be visible
+ */
 fun ViewGroup.turnViewsToVisible(visibleViewIds: Set<Int>) {
     for (index in 0 until childCount) {
         if (visibleViewIds.contains(getChildAt(index).id)) {
@@ -57,18 +66,29 @@ fun ViewGroup.turnViewsToVisible(visibleViewIds: Set<Int>) {
     }
 }
 
+/**
+ * Get the width of the [Activity]
+ */
 fun Activity.getWidth() : Int {
     val displayMetrics = DisplayMetrics()
     windowManager.defaultDisplay.getMetrics(displayMetrics)
     return displayMetrics.widthPixels
 }
 
+/**
+ * Get the height of the [Activity]
+ */
 fun Activity.getHeight() : Int {
     val displayMetrics = DisplayMetrics()
     windowManager.defaultDisplay.getMetrics(displayMetrics)
     return displayMetrics.heightPixels
 }
 
+/**
+ * This method animate the view's x
+ * @param from from which x position does the view animates
+ * @param durationInMillis the an animation duration by milliseconds
+ */
 fun View.translateX(from: Float, durationInMillis: Long) {
     post {
         ValueAnimator.ofFloat(from, x)
@@ -93,7 +113,11 @@ fun View.translateX(from: Float, durationInMillis: Long) {
             .start()
     }
 }
-
+/**
+ * This method animate the view's y
+ * @param from from which y position does the view animates
+ * @param durationInMillis the an animation duration by milliseconds
+ */
 fun View.translateY(from: Float, durationInMillis: Long) {
     post {
         ValueAnimator.ofFloat(from, y)

@@ -6,6 +6,10 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
 
+/**
+ * Retrofit interface definition of Polar api
+ * <a href="https://www.polar.com/accesslink-api/"/>
+ */
 interface PolarApi {
     @GET("v3/users/{user-id}")
     fun getUserInfo(

@@ -9,6 +9,9 @@ import leo.me.la.codeblue.presentation.presentationModule
 import leo.me.la.codeblue.remote.remoteModule
 import org.koin.android.ext.android.startKoin
 
+/**
+ * This application class initialize the dependency graph of the project by calling [startKoin]
+ */
 class CodeBlueApplication : Application() {
     override fun onCreate() {
         super.onCreate()

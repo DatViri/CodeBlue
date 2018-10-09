@@ -4,6 +4,9 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import leo.me.la.codeblue.remote.User
 
+/**
+ * interface definition of [UserCacheDataStore]
+ */
 interface UserCacheDataStore {
     fun storeUserInfo(user: User): Completable
     fun loadUserInfo(userId: Int): Single<CacheUser>
