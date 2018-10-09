@@ -212,7 +212,6 @@ class BleWrapper(private val context: Context, deviceAddress: String) : Handler.
 
         override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
             super.onCharacteristicChanged(gatt, characteristic)
-            //Log.d("DBG", "Characteristic data received")
 
             mainHandler.obtainMessage(MSG_NOTIFY, characteristic).sendToTarget()
         }

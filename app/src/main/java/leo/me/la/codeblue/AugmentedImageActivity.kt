@@ -3,12 +3,8 @@ package leo.me.la.codeblue
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.google.ar.core.AugmentedImage
-import com.google.ar.core.Config
-import com.google.ar.core.Session
 import com.google.ar.core.TrackingState
-import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.Scene
 import com.google.ar.sceneform.ux.ArFragment
 import leo.me.la.codeblue.common.helper.SnackbarHelper
@@ -25,7 +21,6 @@ class AugmentedImageActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("RGB","onResume AIA")
         arFragment.arSceneView.apply {
             scene.addOnUpdateListener(onUpdateFrame)
         }

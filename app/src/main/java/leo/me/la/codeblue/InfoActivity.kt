@@ -1,6 +1,5 @@
 package leo.me.la.codeblue
 
-import android.animation.Animator
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.INFINITE
 import android.animation.ValueAnimator.REVERSE
@@ -11,8 +10,6 @@ import android.bluetooth.BluetoothGattCharacteristic
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.util.Log
-import android.view.animation.AccelerateDecelerateInterpolator
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -67,7 +64,6 @@ class InfoActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d("RGB","onCreate Info")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info)
         Utils.init(this)
@@ -183,7 +179,6 @@ class InfoActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        Log.d("RGB","onDestroy")
         super.onDestroy()
         bleWrapper?.removeAllListeners()
     }
