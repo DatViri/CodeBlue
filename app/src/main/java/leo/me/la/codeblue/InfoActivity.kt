@@ -11,6 +11,7 @@ import android.bluetooth.BluetoothGattCharacteristic
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -66,6 +67,7 @@ class InfoActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("RGB","onCreate Info")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info)
         Utils.init(this)
@@ -73,7 +75,8 @@ class InfoActivity : AppCompatActivity() {
             it?.run(this@InfoActivity::render)
         })
         val userId = intent.getIntExtra("username", UserIdentities.user1.first)
-        userViewModel.fetchUser(userId)
+        val userToken = intent.getStringExtra("userToken") ?: UserIdentities.user1.third
+        userViewModel.fetchUser(userId, userToken)
         lineChart.data = lineData
         lineChart.setVisibleXRangeMaximum(40f)
         lineChart.axisRight.isEnabled = false
@@ -180,6 +183,7 @@ class InfoActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        Log.d("RGB","onDestroy")
         super.onDestroy()
         bleWrapper?.removeAllListeners()
     }

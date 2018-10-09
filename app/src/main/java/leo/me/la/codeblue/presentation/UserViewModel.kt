@@ -18,9 +18,9 @@ class UserViewModel(
     private val _viewState = MutableLiveData<UserViewState>()
     val viewState : LiveData<UserViewState> = _viewState
 
-    fun fetchUser(userId: Int) {
+    fun fetchUser(userId: Int, userToken: String) {
         disposables.add(
-            fetchUserUseCase.fetchUserUseCase(userId)
+            fetchUserUseCase.fetchUserUseCase(userId,userToken)
                 .flatMap {
                     bmiUseCase.calculateBMI(it.weight, it.height)
                         .map { bmi ->

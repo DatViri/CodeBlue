@@ -12,8 +12,8 @@ class FetchUserUseCase(
     private val threadExecutor: Scheduler,
     private val postExecutionThread: Scheduler
 ) {
-    fun fetchUserUseCase(userId: Int) : Single<DataUser> {
-        return userRepository.getUser(userId)
+    fun fetchUserUseCase(userId: Int, userToken:String) : Single<DataUser> {
+        return userRepository.getUser(userId, userToken)
             .map {
                 val year = Calendar.getInstance()
                     .also { cal ->
