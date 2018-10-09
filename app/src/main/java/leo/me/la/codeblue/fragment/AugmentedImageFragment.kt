@@ -17,8 +17,10 @@ import leo.me.la.codeblue.common.helper.SnackbarHelper
 import java.io.IOException
 
 private val imageList = listOf(
-    "giang.jpg"
+        "giang.jpg",
+        "dat.jpg"
 )
+
 
 class AugmentedImageFragment : ArFragment() {
 
@@ -26,16 +28,16 @@ class AugmentedImageFragment : ArFragment() {
         super.onAttach(context)
 
         val openGlVersionString = (context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager)
-            .deviceConfigurationInfo
-            .glEsVersion
+                .deviceConfigurationInfo
+                .glEsVersion
         if (java.lang.Double.parseDouble(openGlVersionString) < MIN_OPENGL_VERSION) {
             SnackbarHelper.instance
-                .showError(activity!!, "Sceneform requires OpenGL ES 3.0 or later")
+                    .showError(activity!!, "Sceneform requires OpenGL ES 3.0 or later")
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         // Turn off the plane discovery since we're only looking for images
@@ -60,7 +62,7 @@ class AugmentedImageFragment : ArFragment() {
         session.configure(config)
         if (!setupAugmentedImageDatabase(config, session)) {
             SnackbarHelper.instance
-                .showError(activity!!, "Could not setup augmented image database")
+                    .showError(activity!!, "Could not setup augmented image database")
         }
         return config
     }
@@ -81,8 +83,8 @@ class AugmentedImageFragment : ArFragment() {
 
     private fun loadAugmentedImageBitmap(assetManager: AssetManager, imageName: String): Bitmap? {
         try {
-            assetManager.open(imageName).use {
-                stream -> return BitmapFactory.decodeStream(stream)
+            assetManager.open(imageName).use { stream ->
+                return BitmapFactory.decodeStream(stream)
             }
         } catch (ignore: IOException) {
             return null

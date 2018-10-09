@@ -7,20 +7,20 @@ import leo.me.la.codeblue.remote.PolarRemoteDataStore
 import leo.me.la.codeblue.remote.User
 
 interface UserRepository {
-    fun getUser(userId: Int) : Single<User>
+    fun getUser(userId: Int, userToken: String) : Single<User>
 }
 
 class UserRepositoryImpl(
     private val polarRemoteDataStore: PolarRemoteDataStore,
     private val cacheDataStore: UserCacheDataStore
 ) : UserRepository {
-    override fun getUser(userId: Int): Single<User> {
+    override fun getUser(userId: Int, userToken: String): Single<User> {
         return cacheDataStore.loadUserInfo(userId)
             .flatMap {
                 // if user in database is saved longer than 5 minutes, then the data is out-dated
                 // fetch for his info from Polar api
                 if (System.currentTimeMillis() - it.savedTime > 5 * 60 * 1000) {
-                    polarRemoteDataStore.getUserInfo(userId)
+                    polarRemoteDataStore.getUserInfo(userId, userToken)
                         .doOnSuccess { user ->
                             // Save the info into cache after fetched successfully
                             cacheDataStore.storeUserInfo(user)
@@ -43,7 +43,7 @@ class UserRepositoryImpl(
             .onErrorResumeNext {
                 if (it is EmptyResultSetException) {
                     // If there is nothing inside the database, fetch for the user from remote service
-                    polarRemoteDataStore.getUserInfo(userId)
+                    polarRemoteDataStore.getUserInfo(userId, userToken)
                         .doOnSuccess { user ->
                             cacheDataStore.storeUserInfo(user)
                         }

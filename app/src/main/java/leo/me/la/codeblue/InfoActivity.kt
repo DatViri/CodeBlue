@@ -1,6 +1,5 @@
 package leo.me.la.codeblue
 
-import android.animation.Animator
 import android.animation.ValueAnimator
 import android.animation.ValueAnimator.INFINITE
 import android.animation.ValueAnimator.REVERSE
@@ -11,7 +10,6 @@ import android.bluetooth.BluetoothGattCharacteristic
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.view.animation.AccelerateDecelerateInterpolator
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -73,7 +71,8 @@ class InfoActivity : AppCompatActivity() {
             it?.run(this@InfoActivity::render)
         })
         val userId = intent.getIntExtra("username", UserIdentities.user1.first)
-        userViewModel.fetchUser(userId)
+        val userToken = intent.getStringExtra("userToken") ?: UserIdentities.user1.third
+        userViewModel.fetchUser(userId, userToken)
         lineChart.data = lineData
         lineChart.setVisibleXRangeMaximum(40f)
         lineChart.axisRight.isEnabled = false
