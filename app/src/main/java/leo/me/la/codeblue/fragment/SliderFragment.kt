@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_slider.*
 
 import leo.me.la.codeblue.R
+import leo.me.la.codeblue.R.id.fragment_title
 
 private const val IMAGE_KEY = "image"
 private const val TITLE_KEY = "title"

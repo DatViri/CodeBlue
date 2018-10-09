@@ -7,8 +7,6 @@ import android.support.design.widget.Snackbar
 class SnackbarHelper {
     private var messageSnackbar: Snackbar? = null
 
-    val isShowing: Boolean
-        get() = messageSnackbar != null
 
     private enum class DismissBehavior {
         HIDE,
@@ -21,10 +19,6 @@ class SnackbarHelper {
         show(activity, message, DismissBehavior.HIDE)
     }
 
-    /** Shows a snackbar with a given message, and a dismiss button.  */
-    fun showMessageWithDismiss(activity: Activity, message: String) {
-        show(activity, message, DismissBehavior.SHOW)
-    }
 
     /**
      * Shows a snackbar with a given error message. When dismissed, will finish the activity. Useful
