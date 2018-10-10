@@ -7,7 +7,6 @@ import com.google.ar.core.AugmentedImage
 import com.google.ar.core.TrackingState
 import com.google.ar.sceneform.Scene
 import com.google.ar.sceneform.ux.ArFragment
-import leo.me.la.codeblue.common.helper.SnackbarHelper
 
 /**
  * This activity allows user to scan the patient's image and navigate to [InfoActivity] with
@@ -41,8 +40,6 @@ class AugmentedImageActivity : AppCompatActivity() {
                     TrackingState.PAUSED -> {
                         // When an image is in PAUSED state, but the camera is not PAUSED, it has been detected,
                         // but not yet tracked.
-                        val text = "Detected Image " + it.index
-                        SnackbarHelper.instance.showMessage(this@AugmentedImageActivity, text)
                         removeListener()
                         goToAugmentedImageActivity(
                                 if (it.name =="dat.jpg"){

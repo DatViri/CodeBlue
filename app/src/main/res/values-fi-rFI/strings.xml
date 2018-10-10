@@ -11,8 +11,8 @@
     <string name="normal_weight">Normaali paino</string>
     <string name="overweight">Ylipaino</string>
     <string name="obesity">Liikalihavuus</string>
-    <string name="years">vuotta vanha</string>
-    <string name="target_bpm">Kohde:</string>
+    <string name="years">" vuotta vanha"</string>
+    <string name="target_bpm">"Kohde: "</string>
     <string name="low">Matala</string>
     <string name="athlete">Urheilija</string>
     <string name="excellent">Erinomainen</string>
