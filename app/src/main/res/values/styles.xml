@@ -12,4 +12,8 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
+    <style name="Dashboard" parent="AppTheme">
+        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
 </resources>

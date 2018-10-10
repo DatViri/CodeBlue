@@ -4,9 +4,7 @@ import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_info.*
 import kotlinx.android.synthetic.main.activity_splash.*
-import java.util.*
 
 class SplashActivity : AppCompatActivity() {
     private val popupAnimator = ValueAnimator.ofFloat(1f, 0.9f)
