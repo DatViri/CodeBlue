@@ -15,20 +15,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.utils.Utils
-import kotlinx.android.synthetic.main.activity_info.bmi
-import kotlinx.android.synthetic.main.activity_info.bmi_detail
-import kotlinx.android.synthetic.main.activity_info.bmi_message
-import kotlinx.android.synthetic.main.activity_info.dobValue
-import kotlinx.android.synthetic.main.activity_info.heartRate
-import kotlinx.android.synthetic.main.activity_info.heart_detail
-import kotlinx.android.synthetic.main.activity_info.heightValue
-import kotlinx.android.synthetic.main.activity_info.iconHeartRate
-import kotlinx.android.synthetic.main.activity_info.lineChart
-import kotlinx.android.synthetic.main.activity_info.nameValue
-import kotlinx.android.synthetic.main.activity_info.profilePicture
-import kotlinx.android.synthetic.main.activity_info.status
-import kotlinx.android.synthetic.main.activity_info.targetHr
-import kotlinx.android.synthetic.main.activity_info.weightValue
+import kotlinx.android.synthetic.main.activity_info.*
 import leo.me.la.codeblue.bluetooth.BleWrapper
 import leo.me.la.codeblue.bluetooth.HEART_RATE_MEASUREMENT_CHAR_UUID
 import leo.me.la.codeblue.bluetooth.HEART_RATE_SERVICE_UUID
@@ -62,15 +49,18 @@ class InfoActivity : AppCompatActivity() {
     private val lineData by lazy { LineData(lineDataSet) }
     private var counter = 1
     private val popupAnimator = ValueAnimator.ofFloat(1f, 0.9f)
-        .also {
-            it.duration = 300
-            it.repeatMode = REVERSE
-            it.repeatCount = INFINITE
-        }
+            .also {
+                it.duration = 300
+                it.repeatMode = REVERSE
+                it.repeatCount = INFINITE
+            }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info)
+
+        setSupportActionBar(my_toolbar)
+
         Utils.init(this)
         userViewModel.viewState.observe(this, Observer {
             it?.run(this@InfoActivity::render)
@@ -94,7 +84,7 @@ class InfoActivity : AppCompatActivity() {
             UserViewState.Loading -> {
                 bleWrapper?.removeAllListeners()
                 turnViewsToVisible(
-                    setOf(R.id.progressBar)
+                        setOf(R.id.progressBar)
                 )
             }
             is UserViewState.Failure -> {
@@ -103,14 +93,16 @@ class InfoActivity : AppCompatActivity() {
             }
             is UserViewState.Success -> {
                 turnViewsToVisible(setOf(
-                    R.id.profilePicture,
-                    R.id.nameValue,
-                    R.id.divider,
-                    R.id.heart_detail,
-                    R.id.bmi_detail,
-                    R.id.lineChart,
-                    R.id.heartRate,
-                    R.id.iconHeartRate
+                        R.id.my_toolbar,
+                        R.id.weight_detail,
+                        R.id.height_detail,
+                        R.id.nameValue,
+                        R.id.divider,
+                        R.id.heart_detail,
+                        R.id.bmi_detail,
+                        R.id.lineChart,
+                        R.id.heartRate,
+                        R.id.iconHeartRate
                 ))
                 // Display user data
                 with(viewState.user) {
@@ -131,43 +123,43 @@ class InfoActivity : AppCompatActivity() {
                 // Connect to associated sensor
                 val address = intent.getStringExtra("address") ?: UserIdentities.user1.second
                 bleWrapper = BleWrapper(this, address)
-                    .apply {
-                        connect(false)
-                        addListener(object : BleWrapper.BleCallback {
-                            override fun onDeviceReady(gatt: BluetoothGatt) {
-                                bleWrapper?.getNotifications(gatt, HEART_RATE_SERVICE_UUID, HEART_RATE_MEASUREMENT_CHAR_UUID)
-                            }
+                        .apply {
+                            connect(false)
+                            addListener(object : BleWrapper.BleCallback {
+                                override fun onDeviceReady(gatt: BluetoothGatt) {
+                                    bleWrapper?.getNotifications(gatt, HEART_RATE_SERVICE_UUID, HEART_RATE_MEASUREMENT_CHAR_UUID)
+                                }
 
-                            override fun onDeviceDisconnected() {
-                                bleWrapper?.removeAllListeners()
-                            }
+                                override fun onDeviceDisconnected() {
+                                    bleWrapper?.removeAllListeners()
+                                }
 
-                            @SuppressLint("SetTextI18n")
-                            override fun onNotify(characteristic: BluetoothGattCharacteristic) {
-                                runOnUiThread {
-                                    val format = if (characteristic.properties and 0x01 != 0) {
-                                        BluetoothGattCharacteristic.FORMAT_UINT16
-                                    } else {
-                                        BluetoothGattCharacteristic.FORMAT_UINT8
-                                    }
-                                    val heartrate = characteristic.getIntValue(format, 1)
-                                    heartRates.add(Entry(counter.toFloat(), heartrate.toFloat()))
-                                    lineDataSet.notifyDataSetChanged()
-                                    lineData.notifyDataChanged()
-                                    lineChart.notifyDataSetChanged()
-                                    lineChart.invalidate()
-                                    heartRate.text = heartrate.toString()
-                                    counter += 1
-                                    status.apply {
-                                        getHRStatus(viewState.user.age, heartrate).run {
-                                            text = getString(first)
-                                            setTextColor(ContextCompat.getColor(this@InfoActivity, second))
+                                @SuppressLint("SetTextI18n")
+                                override fun onNotify(characteristic: BluetoothGattCharacteristic) {
+                                    runOnUiThread {
+                                        val format = if (characteristic.properties and 0x01 != 0) {
+                                            BluetoothGattCharacteristic.FORMAT_UINT16
+                                        } else {
+                                            BluetoothGattCharacteristic.FORMAT_UINT8
+                                        }
+                                        val heartrate = characteristic.getIntValue(format, 1)
+                                        heartRates.add(Entry(counter.toFloat(), heartrate.toFloat()))
+                                        lineDataSet.notifyDataSetChanged()
+                                        lineData.notifyDataChanged()
+                                        lineChart.notifyDataSetChanged()
+                                        lineChart.invalidate()
+                                        heartRate.text = heartrate.toString()
+                                        counter += 1
+                                        status.apply {
+                                            getHRStatus(viewState.user.age, heartrate).run {
+                                                text = getString(first)
+                                                setTextColor(ContextCompat.getColor(this@InfoActivity, second))
+                                            }
                                         }
                                     }
                                 }
-                            }
-                        })
-                    }
+                            })
+                        }
                 // Apply animation
                 popupAnimator.apply {
                     addUpdateListener {
@@ -176,7 +168,8 @@ class InfoActivity : AppCompatActivity() {
                     }
                     start()
                 }
-                profilePicture.translateX(getWidth().toFloat(), 500)
+                weight_detail.translateX(getWidth().toFloat(), 300)
+                height_detail.translateX(getWidth().toFloat(), 500)
                 bmi_detail.translateX(getWidth().toFloat(), 800)
                 nameValue.translateX(getWidth().toFloat(), 800)
                 lineChart.translateY(getHeight().toFloat(), 500)
@@ -194,12 +187,12 @@ class InfoActivity : AppCompatActivity() {
 
     private val heartRateStatusDecision by lazy {
         listOf(
-            0..25 to HeartRateLimitLine(40, 55, 60, 65, 69, 73, 81),
-            26..35 to HeartRateLimitLine(40, 54, 60, 65, 70, 74, 81),
-            36..45 to HeartRateLimitLine(40, 56, 61, 66, 70, 75, 82),
-            46..55 to HeartRateLimitLine(40, 57, 62, 67, 71, 76, 83),
-            56..65 to HeartRateLimitLine(40, 56, 62, 67, 71, 75, 80),
-            65..Int.MAX_VALUE to HeartRateLimitLine(40, 56, 62, 67, 71, 75, 80)
+                0..25 to HeartRateLimitLine(40, 55, 60, 65, 69, 73, 81),
+                26..35 to HeartRateLimitLine(40, 54, 60, 65, 70, 74, 81),
+                36..45 to HeartRateLimitLine(40, 56, 61, 66, 70, 75, 82),
+                46..55 to HeartRateLimitLine(40, 57, 62, 67, 71, 76, 83),
+                56..65 to HeartRateLimitLine(40, 56, 62, 67, 71, 75, 80),
+                65..Int.MAX_VALUE to HeartRateLimitLine(40, 56, 62, 67, 71, 75, 80)
         )
     }
 
@@ -217,28 +210,28 @@ class InfoActivity : AppCompatActivity() {
         return heartRateStatusDecision.first {
             it.first.contains(age)
         }
-            .second
-            .let {
-                when {
-                    bpm < it.low -> Pair(R.string.low, R.color.colorLow)
-                    bpm < it.athlete -> Pair(R.string.athlete, R.color.colorAthlete)
-                    bpm < it.excellent -> Pair(R.string.excellent, R.color.colorExcellent)
-                    bpm < it.good -> Pair(R.string.good, R.color.colorGood)
-                    bpm < it.aboveAverage -> Pair(R.string.above, R.color.colorAboveAverage)
-                    bpm < it.average -> Pair(R.string.average, R.color.colorAverage)
-                    bpm < it.belowAverage -> Pair(R.string.below, R.color.colorBelowAverage)
-                    else -> Pair(R.string.poor, R.color.colorPoor)
+                .second
+                .let {
+                    when {
+                        bpm < it.low -> Pair(R.string.low, R.color.colorLow)
+                        bpm < it.athlete -> Pair(R.string.athlete, R.color.colorAthlete)
+                        bpm < it.excellent -> Pair(R.string.excellent, R.color.colorExcellent)
+                        bpm < it.good -> Pair(R.string.good, R.color.colorGood)
+                        bpm < it.aboveAverage -> Pair(R.string.above, R.color.colorAboveAverage)
+                        bpm < it.average -> Pair(R.string.average, R.color.colorAverage)
+                        bpm < it.belowAverage -> Pair(R.string.below, R.color.colorBelowAverage)
+                        else -> Pair(R.string.poor, R.color.colorPoor)
+                    }
                 }
-            }
     }
 }
 
 data class HeartRateLimitLine(
-    val low: Int,
-    val athlete: Int,
-    val excellent: Int,
-    val good: Int,
-    val aboveAverage: Int,
-    val average: Int,
-    val belowAverage: Int
+        val low: Int,
+        val athlete: Int,
+        val excellent: Int,
+        val good: Int,
+        val aboveAverage: Int,
+        val average: Int,
+        val belowAverage: Int
 )
