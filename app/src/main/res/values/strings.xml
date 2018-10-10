@@ -30,4 +30,6 @@
     <string name="step1">Turn on the sensor</string>
     <string name="step2">Scan the patient image</string>
     <string name="step3">Get the patient data</string>
+    <string name="app_name_splash_screen">CODEBLUE</string>
+    <string name="app_banner">Doctors\' right hand</string>
 </resources>

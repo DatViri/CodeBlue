@@ -11,8 +11,8 @@
     <string name="normal_weight">Bình thường</string>
     <string name="overweight">Thừa cân</string>
     <string name="obesity">Béo phì</string>
-    <string name="years">tuổi</string>
-    <string name="target_bpm">Mục tiêu</string>
+    <string name="years">" tuổi"</string>
+    <string name="target_bpm">"Mục tiêu: "</string>
     <string name="low">Thấp</string>
     <string name="athlete">Vận động viên</string>
     <string name="excellent">Hoàn hảo</string>
