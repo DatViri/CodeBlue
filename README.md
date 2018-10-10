@@ -6,7 +6,9 @@ In hospital, nurses usually check patient's health status daily, which includes 
 
 ## The how
 - Attach a heart measurement sensor on the patient's arm with an armband. In the scope of this project, we use Polar OH1 sensor
+
 ![Polar OH1](https://www.polar.com/sites/default/files/product2/intro/Polar-OH1-Optical-Heartrate-sensor_13.png)
+  
   ***Why Polar OH1?***
   
   *Polar provides open API that allows developers to get information of the users*
